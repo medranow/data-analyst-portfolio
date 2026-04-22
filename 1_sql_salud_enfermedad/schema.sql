@@ -13,8 +13,8 @@ CREATE TABLE poblacion (
     "municipio_id" INTEGER NOT NULL,
     "year" INTEGER NOT NULL,
     "poblacion" INTEGER NOT NULL,
-    PRIMARY KEY (municipio_id, anio),
-    FOREIGN KEY (municipio_id) REFERENCES municipios(id)
+    PRIMARY KEY ("municipio_id", "year"),
+    FOREIGN KEY ("municipio_id") REFERENCES "municipios"("id")
 );
 
 CREATE TABLE casos (
