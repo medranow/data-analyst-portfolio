@@ -1,0 +1,4 @@
+DashboardMSPAS/
+venv/
+*.db
+__pycache__/
