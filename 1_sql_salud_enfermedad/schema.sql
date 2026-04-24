@@ -4,6 +4,16 @@ CREATE TABLE municipios (
     "departamento" TEXT NOT NULL
 );
 
+--Table created to import a dataset from a .csv file from MSPAS about dengue 
+CREATE TABLE dengue_temp (
+    "year" INTEGER NOT NULL,
+    "departamento" TEXT NOT NULL,
+    "municipio" TEXT NOT NULL,
+    "grupo_etario" TEXT NOT NULL,
+    "sexo" TEXT NOT NULL,
+    "casos" INTEGER NOT NULL
+);
+
 CREATE TABLE enfermedades (
     "id" INTEGER PRIMARY KEY,
     "nombre" TEXT NOT NULL UNIQUE
