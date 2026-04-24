@@ -55,3 +55,29 @@ JOIN municipios AS m
     ON c.municipio_id = m.id
 GROUP BY m.departamento
 ORDER BY total_casos DESC;
+
+-- Municipality ranking dataset
+SELECT
+    m.municipio AS municipality,
+    m.departamento AS department,
+    SUM(c.numero_casos) AS total_cases
+FROM casos AS c
+JOIN municipios AS m
+    ON c.municipio_id = m.id
+GROUP BY
+    m.municipio,
+    m.departamento
+ORDER BY total_cases DESC;
+
+-- Cases by year and municipality
+SELECT
+    c.year,
+    m.municipio AS municipality,
+    SUM(c.numero_casos) AS total_cases
+FROM casos AS c
+JOIN municipios AS m
+    ON c.municipio_id = m.id
+GROUP BY
+    c.year,
+    m.municipio
+ORDER BY c.year;
