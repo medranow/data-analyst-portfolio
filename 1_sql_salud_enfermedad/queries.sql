@@ -1,51 +1,57 @@
--- 1. Total de casos por municipio
+-- Total dengue cases by year
 SELECT
-    "municipios"."municipio",
-    SUM("casos"."numero_casos") AS "total_casos"
-FROM "municipios"
-JOIN "casos"
-    ON "municipios"."id" = "casos"."municipio_id"
-GROUP BY "municipios"."municipio"
-ORDER BY "total_casos" DESC;
+    c.year,
+    SUM(c.numero_casos) AS total_casos
+FROM casos AS c
+GROUP BY c.year
+ORDER BY c.year;
 
--- 2. Total de casos por year
+-- Top municipalities by total cases
 SELECT
-    "year",
-    SUM("numero_casos") AS "total_casos"
-FROM "casos"
-GROUP BY "year"
-ORDER BY "year";
+    m.municipio,
+    SUM(c.numero_casos) AS total_casos
+FROM casos AS c
+JOIN municipios AS m
+    ON c.municipio_id = m.id
+GROUP BY m.municipio
+ORDER BY total_casos DESC
+LIMIT 10;
 
--- 3. Total de casos por enfermedad
+-- Top municipalities by total cases including department
 SELECT
-    "enfermedades"."nombre" AS "enfermedad",
-    SUM("casos"."numero_casos") AS "total_casos"
-FROM "casos"
-JOIN "enfermedades"
-    ON "casos"."enfermedad_id" = "enfermedades"."id"
-GROUP BY "enfermedades"."nombre"
-ORDER BY "total_casos" DESC;
-
--- 4. Incidencia por municipio y year
-SELECT
-    "municipios"."municipio",
-    "casos"."year",
-    SUM("casos"."numero_casos") AS "total_casos",
-    "poblacion"."poblacion",
-    ROUND(
-        SUM("casos"."numero_casos") * 100000.0 / "poblacion"."poblacion",
-        2
-    ) AS "incidencia_por_100000"
-FROM "casos"
-JOIN "municipios"
-    ON "casos"."municipio_id" = "municipios"."id"
-JOIN "poblacion"
-    ON "casos"."municipio_id" = "poblacion"."municipio_id"
-    AND "casos"."year" = "poblacion"."year"
+    m.municipio,
+    m.departamento,
+    SUM(c.numero_casos) AS total_casos
+FROM casos AS c
+JOIN municipios AS m
+    ON c.municipio_id = m.id
 GROUP BY
-    "municipios"."municipio",
-    "casos"."year",
-    "poblacion"."poblacion"
-ORDER BY
-    "casos"."year",
-    "incidencia_por_100000" DESC;
+    m.municipio,
+    m.departamento
+ORDER BY total_casos DESC
+LIMIT 10;
+
+-- Top municipalities in 2024
+SELECT
+    m.municipio,
+    m.departamento,
+    SUM(c.numero_casos) AS total_casos
+FROM casos AS c
+JOIN municipios AS m
+    ON c.municipio_id = m.id
+WHERE c.year = 2024
+GROUP BY
+    m.municipio,
+    m.departamento
+ORDER BY total_casos DESC
+LIMIT 10;
+
+-- Dengue cases by department
+SELECT
+    m.departamento,
+    SUM(c.numero_casos) AS total_casos
+FROM casos AS c
+JOIN municipios AS m
+    ON c.municipio_id = m.id
+GROUP BY m.departamento
+ORDER BY total_casos DESC;
