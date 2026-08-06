@@ -1,4 +1,19 @@
-DashboardMSPAS/
+# macOS
+.DS_Store
+
+# Python virtual environments
 venv/
-*.db
+.venv/
+
+# Python cache
 __pycache__/
+*.py[cod]
+
+# Jupyter
+.ipynb_checkpoints/
+
+# VS Code
+.vscode/
+
+# Your dashboard project (if it is not part of this repository)
+DashboardMSPAS/
